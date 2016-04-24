@@ -69,7 +69,7 @@ class CamRtsp(object):
             else:
                 return "stop"
 
-if __name__ == "__main__":
+def console_run():
     try:
         cr = CamRtsp()
         cr.start()
@@ -96,3 +96,7 @@ if __name__ == "__main__":
         tornado.ioloop.IOLoop.current().start()
     finally:
         cr.stop()
+
+
+if __name__ == "__main__":
+    console_run()
