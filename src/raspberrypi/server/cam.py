@@ -37,7 +37,7 @@ class CamRtsp(object):
 
     def stop(self):
         with self.status_lock:
-            print("stop service")
+            print("--stop service")
             if self.sp_grab:
                 self.sp_grab.terminate()
             if self.sp_cvlc:
@@ -45,10 +45,11 @@ class CamRtsp(object):
             if os.path.exists(self.pipe_path):
                 os.unlink(self.pipe_path)
             self.running = False
+            print("++stop ok")
 
     def start(self):
         with self.status_lock:
-            print("start service")
+            print("--start service")
             if not os.path.exists(self.pipe_path):
                 os.mkfifo(self.pipe_path)
             if not self.get_cam():
@@ -57,9 +58,11 @@ class CamRtsp(object):
                 warnings.warn("cvlc not in PATH")
             self.running = True
             self.send_cvlc()
+            print("++start ok")
 
     def status(self):
         with self.status_lock:
+            print('--status-check')
             if self.running:
                 if self.sp_grab.poll() or self.sp_cvlc.poll():
                     self.running = False
@@ -73,19 +76,20 @@ def console_run():
     try:
         cr = CamRtsp()
         cr.start()
-        time_point = datetime.datetime.now() + datetime.timedelta(seconds=26)
+        time_point = [datetime.datetime.now() + datetime.timedelta(seconds=26)]
 
         def timeout_check():
-            if time_point < datetime.datetime.now():
+            if time_point[0] < datetime.datetime.now():
                 if cr.status() == "start":
                     cr.stop()
 
         class WatchDogHandler(tornado.web.RequestHandler):
             def get(self):
-                time_point = datetime.datetime.now() + datetime.timedelta(seconds=26)
+                time_point[0] = datetime.datetime.now() + datetime.timedelta(seconds=26)
+                print cr.status()
                 if cr.status() != "start":
                     cr.start()
-                self.write(time_point.strftime("%s"))
+                self.write(time_point[0].strftime("%s"))
 
         httpd = tornado.web.Application([
             (r"/.*", WatchDogHandler),
