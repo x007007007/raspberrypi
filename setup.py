@@ -29,7 +29,7 @@ setup(
     name='raspberry-tools',
     version = version,
     install_requires=requires,
-    packages=find_packages(''),
+    packages=find_packages('src'),
     package_dir={
         "": "src"
     },
