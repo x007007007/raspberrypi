@@ -1,0 +1,6 @@
+[submodule "wiringPi"]
+	path = wiringPi
+	url = git://git.drogon.net/wiringPi
+[submodule "third/wiringPi"]
+	path = third/wiringPi
+	url = git://git.drogon.net/wiringPi
