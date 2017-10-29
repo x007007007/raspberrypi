@@ -1,13 +1,22 @@
 import RPi.GPIO as gpio
+from base_gpio import BaseGPIOModule
 import time
 import sys
 import datetime
 channel = 4
 
-try:
-    gpio.setmode(gpio.BCM)
-    while True:
-        time.sleep(1)
+class Temperature(BaseGPIOModule):
+    pin_mode = gpio.BCM
+
+    @classmethod
+    def required_io_name(cls):
+        return ("CHANNEL",)
+
+    def setup(self, channel=4):
+        self.gpio_pin['CHANNEL'] = channel
+
+    def process(self):
+        channel = self.gpio_pin.CHANNEL
         data = []
         gpio.setup(channel, gpio.OUT)
         gpio.output(channel, gpio.LOW)
@@ -34,7 +43,6 @@ try:
                 data.append(1)
             j += 1
 
-
         humidity_bit = data[:8]
         humidity_point_bit = data[8:16]
         temperature_bit = data[16:24]
@@ -46,21 +54,23 @@ try:
         temperature = 0
         termerature_point = 0
         check = 0
-        
         for i in range(8):
             humidity += humidity_bit[i] * 2 ** (7-i)
             humidity_point += humidity_point_bit[i] * 2 ** (7-i)
             temperature += temperature_bit[i] * 2 ** (7-i)
             temperature_point = temperature_point_bit[i] * 2 ** (7 -i)
             check += check_bit[i] * 2 ** (7 - i)
-        
         tmp = humidity + humidity_point + temperature + temperature_point
-        
-        if check == tmp:
-            sys.stdout.write("\r{} temperature: {}.{}, humidity:{}.{}".format(datetime.datetime.now(), temperature, temperature_point, humidity, humidity_point))
-        sys.stdout.flush()
-except:
-    import traceback
-    traceback.print_exc()
-finally:
-    gpio.cleanup()
+        if tmp == check:
+            return {
+                "temperature": float("{}.{}".format(temperature, temperature_point)),
+                "humidity": float("{}.{}".format(humidity, humidity_point))
+            }
+        else:
+            raise RuntimeError("Sum check failed")
+
+
+if __name__ == "__main__":
+    with Temperature() as fp:
+        print(fp.process())
+
