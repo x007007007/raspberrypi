@@ -1,6 +1,9 @@
-import RPi.GPIO as gpio
+try:
+    import RPi.GPIO as gpio
+except:
+    import x007007007.RPi.GPIO as gpio
 
-class GPIOPin(object):
+class _GPIOPins(object):
     def __init__(self):
         self._pins = {}
 
@@ -21,15 +24,28 @@ class GPIOPin(object):
             print(key,value)
             object.__getattribute__(self, "_pins")[key] = value
         else:
-            print(ken, value)
             object.__setattribute__(self, key, value)
 
 
-class BaseGPIOModule(object):
+class GPIOPin(object):
+    def __init__(self, required=False, pwm=False):
+        self.required = required
 
+    def __set__(self, instance, value):
+        print(instance, value)
+
+    def __get__(self, instance, owner):
+        print(instance, owner)
+
+
+class BaseGPIOModule(object):
     def __init__(self):
-        self.gpio_pin = GPIOPin()
+        self.gpio_pin = _GPIOPins()
+        self.gpio = gpio
         gpio.setmode(gpio.BCM)
+
+    def setup(self, *args, **kwargs):
+        raise NotImplementedError
 
     def __enter__(self, *args, **kwargs):
         self.setup(*args, **kwargs)
@@ -41,6 +57,6 @@ class BaseGPIOModule(object):
 
     @classmethod
     def required_io_name(cls):
-        raise NotImplemented
+        raise NotImplementedError
 
 

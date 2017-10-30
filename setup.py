@@ -1,20 +1,20 @@
 #!/usr/bin/env python
-import os
-import subprocess
+import versioneer
 from setuptools import setup, find_packages
-
-
+cmdclass = versioneer.get_cmdclass()
+from pyrequirements import get_requirements
+get_requirements()
 requires = [
     'tornado',
     'django',
     'picamera',
-    'luma.oled',
-    'RPi.GPIO'
+    # 'luma.oled',
+    # 'RPi.GPIO'
 ]
 
 setup(
     name='raspberry-tools',
-    version = "1.2.3",
+    version = versioneer.get_version(),
     install_requires=requires,
     packages=find_packages('src'),
     package_dir={
@@ -24,10 +24,10 @@ setup(
         '': ['*.txt', '*.rst', '*.md', '*.html', '*.json', '*.conf']
     },
     include_package_data=True,
-    description="cdn_quality_net ({})".format(git_version),
+    description="RaspberryPi python code",
     author = "xuxingci",
     author_email="x007007007@hotmail.com",
-    license='qiniu',
+    license='MIT',
     url='https://github.com/x007007007/raspberrypi/',
     classifiers=[
         'Environment :: Raspberry',

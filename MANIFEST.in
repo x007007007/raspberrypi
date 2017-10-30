@@ -1,0 +1,2 @@
+include versioneer.py
+include src/x007007007/RPi/_version.py
