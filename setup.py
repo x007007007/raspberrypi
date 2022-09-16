@@ -1,49 +1,70 @@
-#!/usr/bin/env python
-import versioneer
-from setuptools import setup, find_packages
-cmdclass = versioneer.get_cmdclass()
-from pyrequirements import get_requirements
-get_requirements()
-requires = [
-    'tornado',
-    'django',
-    'picamera',
-    # 'luma.oled',
-    # 'RPi.GPIO'
-]
 
-setup(
-    name='raspberry-tools',
-    version = versioneer.get_version(),
-    install_requires=requires,
-    packages=find_packages('src'),
-    package_dir={
-        "": "src"
-    },
-    package_data={
-        '': ['*.txt', '*.rst', '*.md', '*.html', '*.json', '*.conf']
-    },
-    include_package_data=True,
-    description="RaspberryPi python code",
-    author = "xuxingci",
-    author_email="x007007007@hotmail.com",
-    license='MIT',
-    url='https://github.com/x007007007/raspberrypi/',
-    classifiers=[
-        'Environment :: Raspberry',
-        'Intended Audience :: Developers',
-        'Operating System :: Linux',
-        'Operating System :: POSIX',
-        'Programming Language :: Python',
-        'Topic :: Raspberry',
+# -*- coding: utf-8 -*-
+from setuptools import setup
+
+long_description = None
+INSTALL_REQUIRES = [
+    'setuptools<=57.4',
+]
+EXTRAS_REQUIRE = {
+    'test': [
+        'pytest',
+        'pytest-cov[all]',
+        'pytest-django',
+        'pytest-asyncio',
     ],
-    platforms = [
-        "RaspberryPi", "Linux", "Unix"
+    'lint': [
+        'black',
+        'flake8',
     ],
-    entry_points = {
-        'console_scripts': [
-            'keep_online=raspberrypi.server.cam:console_run',
-            'cam2rtsp=raspberrypi.server.keep_online:console_run'
-        ],
-    }
-)
+    'dj': [
+        'django',
+        'djangorestframework',
+        'django-filter',
+    ],
+    'dj-ch': [
+        'django',
+        'djangorestframework',
+        'django-filter',
+        'channels',
+    ],
+    'dj-raspberrypi': [
+        'django',
+        'djangorestframework',
+        'django-filter',
+        'channels',
+    ],
+}
+
+setup_kwargs = {
+    'name': 'x007007007-respberrypi',
+    'version': '0.1.0',
+    'description': '',
+    'long_description': long_description,
+    'license': 'MIT',
+    'author': '',
+    'author_email': 'xingci.xu <x007007007@hotmail.com>',
+    'maintainer': None,
+    'maintainer_email': None,
+    'url': '',
+    'packages': [
+        'x007007007',
+        'x007007007.RPi',
+        'x007007007.RPi.dirver',
+        'x007007007.djserver.raspberrypi',
+        'x007007007.djserver.raspberrypi.settings',
+        'x007007007.djapp.local_net',
+        'x007007007.djapp._models',
+        'x007007007.djapp.local_net.admin',
+        'x007007007.djapp.local_net.models',
+    ],
+    'package_dir': {'': 'src'},
+    'package_data': {'': ['*']},
+    'install_requires': INSTALL_REQUIRES,
+    'extras_require': EXTRAS_REQUIRE,
+    'python_requires': '>=3.10',
+
+}
+
+
+setup(**setup_kwargs)
