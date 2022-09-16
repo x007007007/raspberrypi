@@ -88,6 +88,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': f"{DATA_FOLDER}/db.sqlite3",
+    },
+    'memsql': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ":memory:"
     }
 }
 

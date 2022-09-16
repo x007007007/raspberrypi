@@ -3,5 +3,6 @@ from ... import _models
 
 class DeviceModel(_models.Model):
     name = _models.CharField(max_length=254)
-    mac = _models.CharField(max_length=12, default='', blank=True)
+    mac_set = _models.ManyToManyField(to="AddrMacModel", related_name="device_set")
+    ip_set = _models.ManyToManyField(to="AddrIpModel", related_name="device_set")
     type = _models.ForeignKey("DeviceTypeModel", on_delete=_models.SET_NULL, null=True)

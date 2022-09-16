@@ -16,7 +16,12 @@ class MyListener(ServiceListener):
 
 zeroconf = Zeroconf()
 listener = MyListener()
-browser = ServiceBrowser(zeroconf, ".local.", listener)
+browser = ServiceBrowser(zeroconf, [
+    "_https._tcp.local.",
+    "_http._tcp.local.",
+    "_tcp.local.",
+    ".local.",
+], listener)
 try:
     input("Press enter to exit...\n\n")
 finally:

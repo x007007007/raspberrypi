@@ -4,7 +4,7 @@ from ..models import ArpModel
 
 
 @admin.register(ArpModel)
-class ArpAdminModel(admin.ModelAdmin):
+class ArpModelAdmin(admin.ModelAdmin):
     list_display = (
         'ip',
         'mac',

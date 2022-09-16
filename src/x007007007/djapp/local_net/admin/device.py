@@ -8,5 +8,8 @@ class DeviceModelAdmin(admin.ModelAdmin):
     list_display = (
         'pk',
         'name',
-        'mac',
     )
+
+    readonly_fields = [
+        'ip_set',
+    ]
