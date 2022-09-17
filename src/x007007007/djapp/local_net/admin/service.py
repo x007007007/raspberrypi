@@ -9,4 +9,5 @@ class ServerModelAdmin(admin.ModelAdmin):
         'pk',
         'name',
         'device',
+        'offline',
     )

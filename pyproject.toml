@@ -42,6 +42,7 @@ dj-raspberrypi = [
     "djangorestframework",
     "django-filter",
     "channels",
+    "zeroconf>=0.39.1",
 ]
 
 [tool.pdm]

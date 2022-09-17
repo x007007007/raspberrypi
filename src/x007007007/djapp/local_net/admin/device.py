@@ -8,6 +8,7 @@ class DeviceModelAdmin(admin.ModelAdmin):
     list_display = (
         'pk',
         'name',
+        'offline',
     )
 
     readonly_fields = [
