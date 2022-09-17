@@ -28,11 +28,11 @@ class DynamicResolver(object):
                 current_domain_list = []
                 for i in query.name.name.decode('utf8').split('.')[::-1]:
                     current_domain_list.append(i)
-                    domain = ".".join(current_domain_list)
+                    domain = ".".join(current_domain_list[::-1])
                     res.append(domain)
                 if domain := DomainModel.objects.filter(
                         name__in=res
-                ).order_by(Length('name').asc()).first():
+                ).order_by(Length('name').desc()).first():
                     query.domain = domain
                     return True
         return False
@@ -102,7 +102,7 @@ def iter_interface():
         for addr in netifaces.ifaddresses(interface).get(netifaces.AF_INET, []):
             yield addr
 
-def main():
+def main(port=53):
     """
     Run the server.
     """
@@ -113,11 +113,11 @@ def main():
         )
         protocol = PrintClientAddressDNSDatagramProtocol(controller=factory)
         try:
-            reactor.listenUDP(53, protocol, interface=addr['addr'])
+            reactor.listenUDP(port, protocol, interface=addr['addr'])
         except:
             logging.exception('udp listen failed')
         try:
-            reactor.listenTCP(53, factory, interface=addr['addr'])
+            reactor.listenTCP(port, factory, interface=addr['addr'])
         except:
             logging.exception('tcp listen failed')
     reactor.run()

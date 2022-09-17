@@ -8,4 +8,13 @@ class DomainModelAdmin(admin.ModelAdmin):
     list_display = (
         'pk',
         'name',
+        'enable',
+    )
+
+    list_filter = (
+        'enable',
+    )
+
+    search_fields = (
+        'name',
     )

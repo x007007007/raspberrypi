@@ -3,9 +3,6 @@
 from setuptools import setup
 
 long_description = None
-INSTALL_REQUIRES = [
-    'setuptools<=57.4',
-]
 EXTRAS_REQUIRE = {
     'test': [
         'pytest',
@@ -33,6 +30,10 @@ EXTRAS_REQUIRE = {
         'djangorestframework',
         'django-filter',
         'channels',
+        'zeroconf>=0.39.1',
+    ],
+    'dj-raspberrrypi': [
+        'netifaces>=0.11.0',
     ],
 }
 
@@ -53,14 +54,26 @@ setup_kwargs = {
         'x007007007.RPi.dirver',
         'x007007007.djserver.raspberrypi',
         'x007007007.djserver.raspberrypi.settings',
-        'x007007007.djapp.local_net_zeroconf',
+        'x007007007.djapp.localnet',
+        'x007007007.djapp.raspberry',
         'x007007007.djapp._models',
-        'x007007007.djapp.local_net_zeroconf.admin',
-        'x007007007.djapp.local_net_zeroconf.models',
+        'x007007007.djapp.localnet.nameserver',
+        'x007007007.djapp.localnet.zeroconf',
+        'x007007007.djapp.localnet.nameserver.migrations',
+        'x007007007.djapp.localnet.nameserver.admin',
+        'x007007007.djapp.localnet.nameserver.component',
+        'x007007007.djapp.localnet.nameserver.models',
+        'x007007007.djapp.localnet.nameserver.management.commands',
+        'x007007007.djapp.localnet.zeroconf.migrations',
+        'x007007007.djapp.localnet.zeroconf.admin',
+        'x007007007.djapp.localnet.zeroconf.component',
+        'x007007007.djapp.localnet.zeroconf.models',
+        'x007007007.djapp.localnet.zeroconf.management.commands',
+        'x007007007.djapp.raspberry.net',
+        'x007007007.djapp.raspberry.net.models',
     ],
     'package_dir': {'': 'src'},
     'package_data': {'': ['*']},
-    'install_requires': INSTALL_REQUIRES,
     'extras_require': EXTRAS_REQUIRE,
     'python_requires': '>=3.10',
 

@@ -12,9 +12,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 
-from fs.memoryfs import MemoryFS
-
-memfs = MemoryFS()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 
@@ -44,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'x007007007.djapp.localnet.zeroconf',
     'x007007007.djapp.localnet.nameserver',
+    'x007007007.djapp.raspberry.net',
 ]
 
 MIDDLEWARE = [
@@ -89,7 +87,6 @@ DOCKER_SERVICE_NAME = os.environ.get("DOCKER_SERVICE_NAME", 'traefik_traefik')
 DOCKER_DEFAULT_CERT_SOLVER = os.environ.get("DOCKER_DEFAULT_CERT_SOLVER", "le")
 
 
-print(memfs.root.name)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

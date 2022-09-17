@@ -7,7 +7,6 @@ authors = [
 ]
 license-expression = "MIT"
 dependencies = [
-    "setuptools<=57.4"
 ]
 requires-python = ">=3.10"
 
@@ -44,13 +43,18 @@ dj-raspberrypi = [
     "channels",
     "zeroconf>=0.39.1",
 ]
+dj-raspberrrypi = [
+    "netifaces>=0.11.0",
+]
 
 [tool.pdm]
 [tool.pdm.dev-dependencies]
 dev = [
+    "setuptools<=57.4",
     "nuitka>=0.9.4",
     "isort",
     "cython",
+    "wheel",
 ]
 
 [build-system]
