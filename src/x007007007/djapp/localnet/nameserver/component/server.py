@@ -4,11 +4,19 @@ from x007007007.djapp.localnet.nameserver.models import DomainModel
 from django.db.models.functions import Length
 from x007007007.djapp.localnet.nameserver.models import RecordModel
 import logging
+import netifaces
+
 
 LOGGER = logging.getLogger(__name__)
 
 
 class DynamicResolver(object):
+    """
+    如果要实现 根据访问来源解析不同的dns记录，需要写DNSServerFactory 中的 resolver
+    可以先实现
+    """
+    def __init__(self, interface):
+        self.interface = interface
 
     def _dynamicResponseRequired(self, query: dns.Query):
         """
@@ -29,7 +37,7 @@ class DynamicResolver(object):
                     return True
         return False
 
-    def _doDynamicResponse(self, query):
+    def _doDynamicResponse(self, query: dns.Query):
         """
         Calculate the response to a query.
         :return: answers, authority:[], additional, []
@@ -44,13 +52,11 @@ class DynamicResolver(object):
                     name=label,
                     type='A',
                 ).values('value', 'ttl')) == 0:
-                    print(record)
                     record = RecordModel.objects.available().filter(
                         domain=query.domain,
                         name='*',
                         type='A'
                     ).values('value', 'ttl')
-                print(record)
                 answers = [
                     dns.RRHeader(
                         name=name,
@@ -60,9 +66,8 @@ class DynamicResolver(object):
                         ))
                     for v in record
                 ]
-                print(answers)
                 return answers, [], []
-        return [], [], []
+        return defer.fail(error.DomainError())
 
     def query(self, query, timeout=None):
         """
@@ -75,20 +80,46 @@ class DynamicResolver(object):
             return defer.fail(error.DomainError())
 
 
+class PrintClientAddressDNSServerFactory(server.DNSServerFactory):
+
+    def handleQuery(self, message, protocol, address):
+        query = message.queries[0]
+        return (
+            self.resolver.query(query)
+            .addCallback(self.gotResolverResponse, protocol, message, address)
+            .addErrback(self.gotResolverError, protocol, message, address)
+        )
+
+
+class PrintClientAddressDNSDatagramProtocol(dns.DNSDatagramProtocol):
+    def datagramReceived(self, datagram, addr):
+        print("Datagram to DNSDatagramProtocol from {}".format(addr))
+        return dns.DNSDatagramProtocol.datagramReceived(self, datagram, addr)
+
+
+def iter_interface():
+    for interface in netifaces.interfaces():
+        for addr in netifaces.ifaddresses(interface).get(netifaces.AF_INET, []):
+            yield addr
 
 def main():
     """
     Run the server.
     """
-    factory = server.DNSServerFactory(
-        clients=[DynamicResolver(), client.Resolver(resolv='/etc/resolv.conf')]
-    )
 
-    protocol = dns.DNSDatagramProtocol(controller=factory)
-
-    reactor.listenUDP(53, protocol)
-    reactor.listenTCP(53, factory)
-
+    for addr in iter_interface():
+        factory = PrintClientAddressDNSServerFactory(
+            clients=[DynamicResolver(interface=addr), client.Resolver(resolv='/etc/resolv.conf')]
+        )
+        protocol = PrintClientAddressDNSDatagramProtocol(controller=factory)
+        try:
+            reactor.listenUDP(53, protocol, interface=addr['addr'])
+        except:
+            logging.exception('udp listen failed')
+        try:
+            reactor.listenTCP(53, factory, interface=addr['addr'])
+        except:
+            logging.exception('tcp listen failed')
     reactor.run()
 
 
