@@ -1,4 +1,4 @@
-from ... import _models
+from x007007007.djapp import _models
 
 
 class DeviceTypeModel(_models.Model):
