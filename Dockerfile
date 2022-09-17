@@ -1,16 +1,18 @@
 FROM python:3.10.7   as build
-RUN pip install -g pdm
+RUN pip install pdm && pip install -U 'setuptools<=57.4'
 WORKDIR /build/
+COPY ./pyproject.toml ./
+RUN pdm install -dG:all -G:all
 COPY ./ ./
-RUN pdm install -G dj-raspberrypi \
+RUN pdm install -dG:all -G dj-raspberrypi \
     && pdm export -f setuppy -o setup.py \
-    && pip install -r requirements.txt \
+    && pdm export -f requirements -o requirements.txt \
     && python setup.py bdist_wheel \
     && mv requirements.txt dist/
 
 FROM python:3.10.7-slim
 WORKDIR /tmp
-COPY --from=build /build/dist/*.whl ./
-RUN pip install -r requirements.txt && pip install x007007007_respberrypi-0.1.0-py3-none-any.whl
+COPY --from=build /build/dist/* ./
+RUN pip install x007007007_respberrypi-0.1.0-py3-none-any.whl
 
 CMD []

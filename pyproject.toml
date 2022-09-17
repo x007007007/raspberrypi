@@ -15,35 +15,26 @@ Homepage = "https://github.com/x007007007/raspberrypi"
 
 
 [project.optional-dependencies]
-test = [
-    "pytest",
-    "pytest-cov[all]",
-    "pytest-django",
-    "pytest-asyncio"
-]
-lint = [
-  "black",
-  "flake8"
+supervisor = [
+    "supervisor",
 ]
 dj = [
     "django",
     "djangorestframework",
     "django-filter"
 ]
+dj-celery = [
+    "celery",
+]
 dj-ch = [
-    "django",
-    "djangorestframework",
-    "django-filter",
+    "x007007007-respberrypi[dj]",
     "channels",
+    "Twisted[tls,http2]",
+    "daphne",
 ]
 dj-raspberrypi = [
-    "django",
-    "djangorestframework",
-    "django-filter",
-    "channels",
+    "x007007007-respberrypi[dj-ch,supervisor]",
     "zeroconf>=0.39.1",
-]
-dj-raspberrrypi = [
     "netifaces>=0.11.0",
 ]
 
@@ -55,6 +46,16 @@ dev = [
     "isort",
     "cython",
     "wheel",
+]
+test = [
+    "pytest",
+    "pytest-cov[all]",
+    "pytest-django",
+    "pytest-asyncio"
+]
+lint = [
+  "black",
+  "flake8"
 ]
 
 [build-system]
