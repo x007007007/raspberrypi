@@ -7,7 +7,9 @@ from ..models import RecordModel
 class RecordModelAdmin(admin.ModelAdmin):
     list_display = (
         'pk',
+        'name',
         'value',
         'type',
         'domain',
+        'ttl',
     )

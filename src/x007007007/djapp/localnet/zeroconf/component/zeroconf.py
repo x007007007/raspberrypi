@@ -51,9 +51,8 @@ class ZeroConfListener(ServiceListener):
         print(f"Service {name} added, service info: {info.host_ttl}")
 
 
-
 def start():
-    zeroconf = Zeroconf()
+    zeroconf = Zeroconf(unicast=True)
     listener = ZeroConfListener()
     browser = ServiceBrowser(zeroconf, list(ZeroconfServiceTypes.find()), listener)
-
+    browser.join()
