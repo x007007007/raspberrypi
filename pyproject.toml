@@ -58,6 +58,17 @@ lint = [
   "flake8"
 ]
 
+[tool.pdm.scripts]
+lint = "flake8"
+test = "pytest"
+start = {composite = ["dev"]}
+testall = {composite = ["lint", "test"]}
+dev = {cmd = "supervisord -c .docker/etc/supervisord.conf"}
+web = {cmd = "python manage.py runserver"}
+dns = {cmd = "python manage.py start_nameserver"}
+zeroconf = {cmd = "python manage.py start_zeroconf"}
+
+
 [build-system]
 requires = ["pdm-pep517>=0.12.0"]
 build-backend = "pdm.pep517.api"
