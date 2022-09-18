@@ -1,6 +1,8 @@
 FROM python:3.10.7   as build
-RUN pip install pdm && pip install -U 'setuptools<=57.4'
 WORKDIR /build/
+RUN pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/ \
+    && pip install pdm \
+    && pip install -U 'setuptools<=57.4'
 COPY ./pyproject.toml ./
 RUN pdm install -dG:all -G:all
 COPY ./ ./
