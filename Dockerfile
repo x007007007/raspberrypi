@@ -1,4 +1,9 @@
 FROM python:3.10.7   as build
+RUN apt-get update \
+    && apt-get install -y \
+        build-essential \
+        curl \
+    && curl https://sh.rustup.rs -sSf | bash -s -- -y
 WORKDIR /build/
 RUN pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/ \
     && pip install pdm \
