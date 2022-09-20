@@ -46,6 +46,7 @@ dev = [
     "isort",
     "cython",
     "wheel",
+    "setuptools-rust",
 ]
 test = [
     "pytest",
