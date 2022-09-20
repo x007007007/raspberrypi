@@ -20,7 +20,8 @@ RUN pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/ \
 COPY ./pyproject.toml ./
 RUN pdm install -dG:all -G:all
 COPY ./ ./
-RUN pdm install -dG:all -G dj-raspberrypi \
+RUN pdm config python.use_venv false && \
+    pdm install -dG:all -G dj-raspberrypi \
     && pdm export -f setuppy -o setup.py \
     && pdm export -f requirements -o requirements.txt \
     && python setup.py bdist_wheel \
