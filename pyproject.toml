@@ -50,7 +50,8 @@ dev = [
 ]
 test = [
     "pytest",
-    "pytest-cov[all]",
+    "pytest-cov",
+    "pytest-xdist",
     "pytest-django",
     "pytest-asyncio"
 ]
