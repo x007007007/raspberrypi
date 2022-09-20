@@ -5,11 +5,11 @@ RUN apt-get update \
         curl \
     && curl https://sh.rustup.rs -sSf | bash -s -- -y
 WORKDIR /build/
-RUN pip download cryptography==38.0.1 \
-    && pip install -U pip setuptools setuptools-rust \
-    && tar -xzvf cryptography-38.0.1.tar.gz \
-    && cd cryptography-38.0.1 \
-    && python setup.py bdist_wheel
+#RUN pip download cryptography==38.0.1 \
+#    && pip install -U pip setuptools setuptools-rust \
+#    && tar -xzvf cryptography-38.0.1.tar.gz \
+#    && cd cryptography-38.0.1 \
+#    && python setup.py bdist_wheel
 
 FROM rust_build as build
 WORKDIR /build/
@@ -26,12 +26,11 @@ RUN pdm config python.use_venv false && \
     && pdm export -f requirements -o requirements.txt \
     && python setup.py bdist_wheel \
     && mv requirements.txt dist/
-COPY --from=rust_build /build/cryptography-38.0.1/dist/ ./dist/
+#COPY --from=rust_build /build/cryptography-38.0.1/dist/ ./dist/
 
 FROM python:3.10.7-slim
 WORKDIR /tmp
 COPY --from=build /build/dist/* ./
-RUN pip install cryptography*.whl \
-    && pip install x007007007_respberrypi-0.1.0-py3-none-any.whl
+RUN pip install x007007007_respberrypi-0.1.0-py3-none-any.whl
 
 CMD []
