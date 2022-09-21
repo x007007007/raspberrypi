@@ -220,6 +220,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "execnet"
+version = "1.9.0"
+requires_python = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+summary = "execnet: rapid multi-Python deployment"
+
+[[package]]
 name = "flake8"
 version = "5.0.4"
 requires_python = ">=3.6.1"
@@ -447,22 +453,33 @@ dependencies = [
 ]
 
 [[package]]
-name = "pytest-cov"
-version = "3.0.0"
-extras = ["all"]
-requires_python = ">=3.6"
-summary = "Pytest plugin for measuring coverage."
-dependencies = [
-    "pytest-cov==3.0.0",
-]
-
-[[package]]
 name = "pytest-django"
 version = "4.5.2"
 requires_python = ">=3.5"
 summary = "A Django plugin for pytest."
 dependencies = [
     "pytest>=5.4.0",
+]
+
+[[package]]
+name = "pytest-forked"
+version = "1.4.0"
+requires_python = ">=3.6"
+summary = "run tests in isolated forked subprocesses"
+dependencies = [
+    "py",
+    "pytest>=3.10",
+]
+
+[[package]]
+name = "pytest-xdist"
+version = "2.5.0"
+requires_python = ">=3.6"
+summary = "pytest xdist plugin for distributed testing and loop-on-failing modes"
+dependencies = [
+    "execnet>=1.1",
+    "pytest-forked",
+    "pytest>=6.2.0",
 ]
 
 [[package]]
@@ -670,7 +687,7 @@ dependencies = [
 
 [metadata]
 lock_version = "4.0"
-content_hash = "sha256:c6c1b4e4f60837fd0c979943f03fd18855746acd58fa0427c8f2bdf5d9042d25"
+content_hash = "sha256:528b4df717f73307d2de42ddc0bb69a20c685febb6ed1d3eba18fd75a1643ce7"
 
 [metadata.files]
 "amqp 5.1.1" = [
@@ -961,6 +978,10 @@ content_hash = "sha256:c6c1b4e4f60837fd0c979943f03fd18855746acd58fa0427c8f2bdf5d
     {url = "https://files.pythonhosted.org/packages/7e/40/efa7f7b2448194b1065572f34d3e6cadb478c67af62f6893957376d8a9be/djangorestframework-3.13.1.tar.gz", hash = "sha256:0c33407ce23acc68eca2a6e46424b008c9c02eceb8cf18581921d0092bc1f2ee"},
     {url = "https://files.pythonhosted.org/packages/c8/45/2588c7c5a01a7da6822c6ffbc9a731d498c318a803a29ae780ec635ea41d/djangorestframework-3.13.1-py3-none-any.whl", hash = "sha256:24c4bf58ed7e85d1fe4ba250ab2da926d263cd57d64b03e8dcef0ac683f8b1aa"},
 ]
+"execnet 1.9.0" = [
+    {url = "https://files.pythonhosted.org/packages/7a/3c/b5ac9fc61e1e559ced3e40bf5b518a4142536b34eb274aa50dff29cb89f5/execnet-1.9.0.tar.gz", hash = "sha256:8f694f3ba9cc92cab508b152dcfe322153975c29bda272e2fd7f3f00f36e47c5"},
+    {url = "https://files.pythonhosted.org/packages/81/c0/3072ecc23f4c5e0a1af35e3a222855cfd9c80a1a105ca67be3b6172637dd/execnet-1.9.0-py2.py3-none-any.whl", hash = "sha256:a295f7cc774947aac58dde7fdc85f4aa00c42adf5d8f5468fc630c1acf30a142"},
+]
 "flake8 5.0.4" = [
     {url = "https://files.pythonhosted.org/packages/ad/00/9808c62b2d529cefc69ce4e4a1ea42c0f855effa55817b7327ec5b75e60a/flake8-5.0.4.tar.gz", hash = "sha256:6fbe320aad8d6b95cec8b8e47bc933004678dc63095be98528b7bdd2a9f510db"},
     {url = "https://files.pythonhosted.org/packages/cf/a0/b881b63a17a59d9d07f5c0cc91a29182c8e8a9aa2bde5b3b2b16519c02f4/flake8-5.0.4-py2.py3-none-any.whl", hash = "sha256:7a1cf6b73744f5806ab95e526f6f0d8c01c66d7bbe349562d22dfca20610b248"},
@@ -1119,6 +1140,14 @@ content_hash = "sha256:c6c1b4e4f60837fd0c979943f03fd18855746acd58fa0427c8f2bdf5d
 "pytest-django 4.5.2" = [
     {url = "https://files.pythonhosted.org/packages/4b/21/b65ecd6686da400e2f6e3c49c2a428325abd979c9670cd97e1671f53296e/pytest_django-4.5.2-py3-none-any.whl", hash = "sha256:c60834861933773109334fe5a53e83d1ef4828f2203a1d6a0fa9972f4f75ab3e"},
     {url = "https://files.pythonhosted.org/packages/9b/42/6d6563165b82289d4a30ea477f85c04386303e51cf4e4e4651d4f9910830/pytest-django-4.5.2.tar.gz", hash = "sha256:d9076f759bb7c36939dbdd5ae6633c18edfc2902d1a69fdbefd2426b970ce6c2"},
+]
+"pytest-forked 1.4.0" = [
+    {url = "https://files.pythonhosted.org/packages/0c/36/c56ef2aea73912190cdbcc39aaa860db8c07c1a5ce8566994ec9425453db/pytest_forked-1.4.0-py3-none-any.whl", hash = "sha256:bbbb6717efc886b9d64537b41fb1497cfaf3c9601276be8da2cccfea5a3c8ad8"},
+    {url = "https://files.pythonhosted.org/packages/f1/bc/0121a2e386b261b69f4f5aa48e5304c947451dce70d68628cb28d5cd0d28/pytest-forked-1.4.0.tar.gz", hash = "sha256:8b67587c8f98cbbadfdd804539ed5455b6ed03802203485dd2f53c1422d7440e"},
+]
+"pytest-xdist 2.5.0" = [
+    {url = "https://files.pythonhosted.org/packages/21/08/b1945d4b4986eb1aa10cf84efc5293bba39da80a2f95db3573dd90678408/pytest_xdist-2.5.0-py3-none-any.whl", hash = "sha256:6fe5c74fec98906deb8f2d2b616b5c782022744978e7bd4695d39c8f42d0ce65"},
+    {url = "https://files.pythonhosted.org/packages/5d/43/9dbc32d297d6eae85d6c05dc8e8d3371061bd6cbe56a2f645d9ea4b53d9b/pytest-xdist-2.5.0.tar.gz", hash = "sha256:4580deca3ff04ddb2ac53eba39d76cb5dd5edeac050cb6fbc768b0dd712b4edf"},
 ]
 "pytz 2022.2.1" = [
     {url = "https://files.pythonhosted.org/packages/24/0c/401283bb1499768e33ddd2e1a35817c775405c1f047a9dc088a29ce2ea5d/pytz-2022.2.1.tar.gz", hash = "sha256:cea221417204f2d1a2aa03ddae3e867921971d0d76f14d87abb4414415bbdcf5"},
