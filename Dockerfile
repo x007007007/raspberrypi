@@ -43,7 +43,7 @@ COPY --from=cffi_build /cffi-1.15.1/dist/ ./dist/
 
 FROM python:3.10.7-slim
 RUN apt-get update \
-    && apt-get install -y gcc \
+    && apt-get install -y gcc
 WORKDIR /tmp
 COPY --from=build /build/dist/* ./
 RUN pip install ./cffi-1.15.1-cp310-cp310-linux_armv7l.whl \
