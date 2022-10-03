@@ -8,8 +8,8 @@ class ZeroConfListener(ServiceListener):
 
     def update_service(self, zc: Zeroconf, type_: str, name: str) -> None:
         from ..models import ServerModel, DeviceModel
-
-        print("update_service")
+        print(f"update_service {type_} {name}")
+        self.add_service(zc, type_, name)
 
     def remove_service(self, zc: Zeroconf, type_: str, name: str) -> None:
         from ..models import ServerModel, DeviceModel

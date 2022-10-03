@@ -1,5 +1,5 @@
 [project]
-name = "x007007007-respberrypi"
+name = "x007007007-raspberrypi"
 version = "0.1.0"
 description = ""
 authors = [
@@ -27,13 +27,13 @@ dj-celery = [
     "celery",
 ]
 dj-ch = [
-    "x007007007-respberrypi[dj]",
+    "x007007007-raspberrypi[dj]",
     "channels",
     "Twisted[tls,http2]",
     "daphne",
 ]
 dj-raspberrypi = [
-    "x007007007-respberrypi[dj-ch,supervisor]",
+    "x007007007-raspberrypi[dj-ch,supervisor]",
     "zeroconf>=0.39.1",
     "netifaces>=0.11.0",
 ]

@@ -12,4 +12,9 @@ class RecordModelAdmin(admin.ModelAdmin):
         'type',
         'domain',
         'ttl',
+        'enable'
     )
+
+    list_filter = [
+        'enable',
+    ]
